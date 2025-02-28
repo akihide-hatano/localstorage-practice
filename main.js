@@ -1,6 +1,7 @@
 // 要素を取得
 const nameInput = document.getElementById('name');
 const genderInputs = document.getElementsByName('gender'); // 修正: ラジオボタンをグループで取得
+const hobbyInputs = document.getElementsByName('hobby');
 
 // localStorageに保存
 nameInput.addEventListener('input', () => {
@@ -9,14 +10,22 @@ nameInput.addEventListener('input', () => {
     localStorage.setItem("name", name);
 });
 
-// ラジオボタンの選択が変更されたときにlocalStorageに保存
-genderInputs.forEach(genderInput => { // 修正: 各ラジオボタンにイベントリスナーを追加
-    genderInput.addEventListener('change', () => {
-        const selectedGender = document.querySelector('input[name="gender"]:checked'); // 修正: 選択されたラジオボタンを取得
-        if (selectedGender) {
-            const gender = selectedGender.value;
-            console.log(gender);
-            localStorage.setItem("gender", gender);
-        }
+
+//gemderをstorageに保存
+genderInputs.forEach(radioButton=>{
+    radioButton.addEventListener("change",()=>{
+        const selectdGender = document.querySelector('input[name="gender"]:checked').value ;
+        console.log(selectdGender);
+        localStorage.setItem("gender",selectdGender);
+    })
+});
+
+//hobbyをstorageに保存
+hobbyInputs.forEach(checkbox => {
+    checkbox.addEventListener('change', () => {
+        const selectedHobbies = Array.from(document.querySelectorAll('input[name="hobby"]:checked')).map(checkbox => checkbox.value); // 選択されたチェックボックスの値を配列として取得
+        console.log(selectedHobbies);
+        localStorage.setItem("hobby", JSON.stringify(selectedHobbies)); // 配列をJSON文字列に変換して保存
     });
 });
+
